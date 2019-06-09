@@ -1,7 +1,8 @@
 let request = require('../../utils/request.js')
 Page({
     data: {
-        isLoading: false
+        isLoading: false,
+        itemList: []
     },
     onLoad(options) {
         let id = options.id;

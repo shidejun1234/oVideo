@@ -1,0 +1,23 @@
+<view class='head'>
+    <image src='{{categoryInfo.headerImage}}'></image>
+    <view class='desc'>
+        <view class='name'>{{categoryInfo.name}}</view>
+        <view>{{categoryInfo.description}}</view>
+    </view>
+</view>
+<view class="video">
+    <block wx:for="{{itemList}}" wx:for-index="index1" wx:key="index1" wx:for-item="items">
+        <block wx:for="{{items}}" wx:for-index="index2" wx:key="index2">
+            <view wx:if="{{item.type=='video'}}" class="item" bindtap="toVideo" data-id="{{item.data.id}}">
+                <image src="{{item.data.cover.detail}}"></image>
+                <view class='title'>{{item.data.title}}</view>
+                <view class="time">{{filter.getTime(item.data.duration)}}</view>
+            </view>
+        </block>
+    </block>
+</view>
+<view class="loading" hidden='{{!isLoading}}'>
+    <view class="loading-left"></view>
+    <view class="weui-loading"></view>
+    <view class="weui-loadmore__tips">正在加载</view>
+</view>

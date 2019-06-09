@@ -1,2 +1,9 @@
-<!--pages/category/category.wxml-->
-<text>pages/category/category.wxml</text>
+<view class='category'>
+    <block wx:for="{{categoryList}}" wx:key='{{item.id}}'>
+        <view class='item' bindtap='toDetail' data-id="{{item.id}}">
+            <image src='{{item.bgPicture}}'></image>
+            <view class='name'>#{{item.name}}</view>
+        </view>
+        <view wx:if="{{index%2==0}}" class='f'></view>
+    </block>
+</view>

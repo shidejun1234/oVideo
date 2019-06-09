@@ -2,7 +2,7 @@ let app = getApp();
 let api = app.globalData.api;
 
 let getFeed = () => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         wx.request({
             url: `${api}v2/feed`,
             success: res => {
@@ -17,7 +17,7 @@ let getFeed = () => {
 }
 
 let getNext = url => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         wx.request({
             url: `${url}`,
             success: res => {
@@ -32,7 +32,7 @@ let getNext = url => {
 }
 
 let getVideo = id => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         wx.request({
             url: `${api}v1/video/${id}`,
             success: res => {
@@ -47,9 +47,39 @@ let getVideo = id => {
 }
 
 let getRelated = id => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         wx.request({
             url: `${api}v4/video/related?id=${id}`,
+            success: res => {
+                if (res.statusCode == 200) {
+                    resolve(res.data);
+                } else {
+                    reject('error');
+                }
+            }
+        })
+    })
+}
+
+let getCategory = () => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: `${api}v4/categories/`,
+            success: res => {
+                if (res.statusCode == 200) {
+                    resolve(res.data);
+                } else {
+                    reject('error');
+                }
+            }
+        })
+    })
+}
+
+let getCategoryDetail = id => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: `${api}v4/categories/detail/tab?id=${id}`,
             success: res => {
                 if (res.statusCode == 200) {
                     resolve(res.data);
@@ -65,5 +95,7 @@ module.exports = {
     getFeed: getFeed,
     getNext: getNext,
     getVideo: getVideo,
-    getRelated: getRelated
+    getRelated: getRelated,
+    getCategory: getCategory,
+    getCategoryDetail: getCategoryDetail
 }
