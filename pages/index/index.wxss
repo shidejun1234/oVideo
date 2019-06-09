@@ -1,0 +1,38 @@
+page{    
+    background: #e5e5e5;
+}
+
+.video{
+    width: 100%;
+    text-align: center;
+}
+
+.video .item{
+    position: relative;
+    width: 95%;
+    margin: 20rpx auto;
+    padding: 35rpx 0;
+    font-size: 30rpx;
+    background: #ffffff;
+}
+
+.video .item image{
+    margin:0 auto;
+    width: 90%;
+    height: 350rpx;
+}
+
+.video .item .title{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.video .item .time{
+    position: absolute;
+    top: 340rpx;
+    left: 40rpx;
+    width: 100rpx;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10rpx;
+}

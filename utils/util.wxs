@@ -1,0 +1,21 @@
+var filter = {
+    getTime: function(time) {
+        var res = '';
+        var minute = parseInt(time / 60);
+        var second = +time % 60;
+        if (minute >= 60) {
+            res += parseInt(minute / 60) + ':';
+            minute = minute % 60;
+        }
+        if (minute < 10) {
+            minute = '0' + minute;
+        }
+        if (second < 10) {
+            second = '0' + second;
+        }
+        return res + minute + ':' + second;
+    }
+}
+module.exports = {
+    getTime: filter.getTime
+}

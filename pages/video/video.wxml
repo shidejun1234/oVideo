@@ -1,0 +1,40 @@
+<wxs module="filter" src="../../utils/util.wxs"></wxs>
+<view class="bg">
+    <image src="{{video.coverBlurred}}"></image>
+</view>
+<scroll-view scroll-y class="body">
+    <view class="section">
+        <video id="myVideo" src="{{video.playInfo[0].url}}" title="{{video.title}}" poster="{{video.coverForDetail}}" vslide-gesture-in-fullscreen enable-danmu controls></video>
+        <view class="desc">{{video.description}}</view>
+        <view class="share">
+            <view>分享</view>
+            <image src='../../images/share.png'></image>
+            <button open-type='share' plain="true"></button>
+        </view>
+    </view>
+    <view class="video">
+        <block wx:for="{{itemList}}" wx:for-index="index1" wx:key="index1" wx:for-item="items">
+            <block wx:for="{{items}}" wx:for-index="index2" wx:key="index2">
+                <view wx:if="{{item.type=='videoSmallCard'}}" class="item" bindtap="toVideo" data-id="{{item.data.id}}">
+                    <view class="card">
+                        <image src="{{item.data.cover.detail}}"></image>
+                        <view class="desc">
+                            <view class="title">{{item.data.title}}</view>
+                            <view class="time">{{'#'+item.data.category+' / '+filter.getTime(item.data.duration)}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view wx:else class="text-card">
+                    <text>
+                    {{item.data.text}}
+                </text>
+                </view>
+            </block>
+        </block>
+    </view>
+    <view class="loading" hidden="{{!isLoading}}">
+        <view class="loading-left"></view>
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips">正在加载</view>
+    </view>
+</scroll-view>
