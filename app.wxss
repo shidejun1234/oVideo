@@ -33,3 +33,18 @@
         transform: rotate(1turn);
     }
 }
+
+.top{
+    width: 100rpx;
+    height: 100rpx;
+    position: fixed;
+    right: 10rpx;
+    bottom: 25%;
+    z-index: 99;
+}
+
+::-webkit-scrollbar{
+width: 0;
+height: 0;
+color: transparent;
+}

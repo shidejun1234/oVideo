@@ -1,5 +1,5 @@
 <wxs module="filter" src="../../utils/util.wxs"></wxs>
-<scroll-view scroll-y class="body" bindscrolltolower="lower" lower-threshold="1000">
+<scroll-view scroll-y class="body" bindscrolltolower="lower" lower-threshold="1000" scroll-top="{{scrollTop}}" bindscroll="myscroll">
     <view class="video">
         <block wx:for="{{itemList}}" wx:for-index="index1" wx:key="index1" wx:for-item="items">
             <block wx:for="{{items}}" wx:for-index="index2" wx:key="index2">
@@ -11,9 +11,10 @@
             </block>
         </block>
     </view>
-    <view class="loading">
+    <view class="loading" hidden='{{!isLoading}}'>
         <view class="loading-left"></view>
         <view class="weui-loading"></view>
         <view class="weui-loadmore__tips">正在加载</view>
     </view>
 </scroll-view>
+<image class="top" hidden="{{!isTop}}" bindtap="top" src="../../images/top.png"></image>

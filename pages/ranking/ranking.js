@@ -1,66 +1,160 @@
-// pages/ranking/ranking.js
+let request = require('../../utils/request.js');
 Page({
 
-    /**
-     * 页面的初始数据
-     */
     data: {
-
+        isTop: false,
+        selectTab: 1,
+        isLoading1: false,
+        isLoading2: false,
+        isLoading3: false
     },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function (options) {
-
+    onLoad: function(options) {
+        //周排行
+        request.getRankList('weekly')
+            .then(res => {
+                let weekly = [];
+                let i = -1;
+                res.itemList.forEach((item,index) => {
+                    if (index%10==0) {
+                        weekly.push([]);
+                        i++;
+                    }
+                    weekly[i].push(item);
+                })
+                this.setData({
+                    weekly: weekly,
+                    'weeklyList[0]': weekly[0],
+                    isLoading1: true,
+                    page1:1
+                })
+            })
+            .then(() => {
+                //月排行
+                return request.getRankList('monthly')
+            })
+            .then(res => {
+                let monthly = [];
+                let i = -1;
+                res.itemList.forEach((item, index) => {
+                    if (index % 10 == 0) {
+                        monthly.push([]);
+                        i++;
+                    }
+                    monthly[i].push(item);
+                })
+                this.setData({
+                    monthly: monthly,
+                    'monthlyList[0]': monthly[0],
+                    isLoading2: true,
+                    page2: 1
+                })
+            })
+            .then(() => {
+                //总排行
+                return request.getRankList('historical')
+            })
+            .then(res => {
+                let historical = [];
+                let i = -1;
+                res.itemList.forEach((item, index) => {
+                    if (index % 10 == 0) {
+                        historical.push([]);
+                        i++;
+                    }
+                    historical[i].push(item);
+                })
+                this.setData({
+                    historical: historical,
+                    'historicalList[0]': historical[0],
+                    isLoading3: true,
+                    page3: 1
+                })
+            })
+            .catch(error => console.log(error));
     },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
+    select(e) {
+        let id = e.currentTarget.dataset.id;
+        if (id != this.data.selectTab) {
+            this.setData({
+                selectTab: Number(id)
+            })
+        }
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
+    toVideo(e) {
+        wx.navigateTo({
+            url: '../video/video?id=' + e.currentTarget.dataset.id
+        })
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
+    myscroll: function (e) {
+        if (e.detail.scrollTop > 1000) {
+            this.setData({
+                isTop: true
+            })
+        } else {
+            this.setData({
+                isTop: false
+            })
+        }
     },
 
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
+    top: function () {
+        this.setData({
+            scrollTop: 0
+        })
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
+    lower() {
+        switch (this.data.selectTab) {
+            case 1:
+                if (this.data.isLoading1) {
+                    let weekly = this.data.weekly;
+                    if (this.data.page1 + 1 == weekly.length) {
+                        this.setData({
+                            isLoading1: false
+                        });
+                    }
+                    let key = `weeklyList[${this.data.page1}]`;
+                    this.setData({
+                        [key]: weekly[this.data.page1++]
+                    });
+                }
+                break;
+            case 2:
+                if (this.data.isLoading2) {
+                    let monthly = this.data.monthly;
+                    if (this.data.page2 + 1 == monthly.length) {
+                        this.setData({
+                            isLoading2: false
+                        });
+                    }
+                    let key = `monthlyList[${this.data.page2}]`;
+                    this.setData({
+                        [key]: monthly[this.data.page2++]
+                    });
+                }
+                break;
+            case 3:
+                if (this.data.isLoading3) {
+                    let historical = this.data.historical;
+                    if (this.data.page3 + 1 == historical.length) {
+                        this.setData({
+                            isLoading3: false
+                        });
+                    }
+                    let key = `historicalList[${this.data.page3}]`;
+                    this.setData({
+                        [key]: historical[this.data.page3++]
+                    });
+                }
+                break;
+        }
     },
 
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
+    onShareAppMessage: function() {
 
     }
 })

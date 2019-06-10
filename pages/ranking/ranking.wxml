@@ -1,2 +1,66 @@
-<!--pages/ranking/ranking.wxml-->
-<text>pages/ranking/ranking.wxml</text>
+<wxs module="filter" src="../../utils/util.wxs"></wxs>
+<scroll-view scroll-y class="body" bindscrolltolower="lower" lower-threshold="1000" scroll-top="{{scrollTop}}" bindscroll="myscroll">
+    <view class='tab'>
+        <view class="{{selectTab==1?'select':''}}" bindtap='select' data-id='1'>周排行</view>
+        <view class="{{selectTab==2?'select':''}}" bindtap='select' data-id='2'>月排行</view>
+        <view class="{{selectTab==3?'select':''}}" bindtap='select' data-id='3'>总排行</view>
+    </view>
+    <view class='video' wx:if="{{selectTab==1}}">
+        <block wx:for="{{weeklyList}}" wx:for-index="index1" wx:key="index1" wx:for-item="items">
+            <block wx:for="{{items}}" wx:for-index="index2" wx:key="index2">
+                <view class='card' bindtap='toVideo' data-id='{{item.data.id}}'>
+                    <view class='b'></view>
+                    <image src='{{item.data.cover.detail}}'></image>
+                    <view class='desc'>
+                        <view class='name'>{{item.data.title}}</view>
+                        <view class="time">{{'#'+item.data.category+' / '+filter.getTime(item.data.duration)}}</view>
+                    </view>
+                </view>
+            </block>
+        </block>
+        <view class="loading" hidden='{{!isLoading1}}'>
+            <view class="loading-left"></view>
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">正在加载</view>
+        </view>
+    </view>
+    <view class='video' wx:if="{{selectTab==2}}">
+        <block wx:for="{{monthlyList}}" wx:for-index="index1" wx:key="index1" wx:for-item="items">
+            <block wx:for="{{items}}" wx:for-index="index2" wx:key="index2">
+                <view class='card' bindtap='toVideo' data-id='{{item.data.id}}'>
+                    <view class='b'></view>
+                    <image src='{{item.data.cover.detail}}'></image>
+                    <view class='desc'>
+                        <view class='name'>{{item.data.title}}</view>
+                        <view class="time">{{'#'+item.data.category+' / '+filter.getTime(item.data.duration)}}</view>
+                    </view>
+                </view>
+            </block>
+        </block>
+        <view class="loading" hidden='{{!isLoading2}}'>
+            <view class="loading-left"></view>
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">正在加载</view>
+        </view>
+    </view>
+    <view class='video' wx:if="{{selectTab==3}}">
+        <block wx:for="{{historicalList}}" wx:for-index="index1" wx:key="index1" wx:for-item="items">
+            <block wx:for="{{items}}" wx:for-index="index2" wx:key="index2">
+                <view class='card' bindtap='toVideo' data-id='{{item.data.id}}'>
+                    <view class='b'></view>
+                    <image src='{{item.data.cover.detail}}'></image>
+                    <view class='desc'>
+                        <view class='name'>{{item.data.title}}</view>
+                        <view class="time">{{'#'+item.data.category+' / '+filter.getTime(item.data.duration)}}</view>
+                    </view>
+                </view>
+            </block>
+        </block>
+        <view class="loading" hidden='{{!isLoading3}}'>
+            <view class="loading-left"></view>
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">正在加载</view>
+        </view>
+    </view>
+</scroll-view>
+<image class="top" hidden="{{!isTop}}" bindtap="top" src="../../images/top.png"></image>

@@ -1,4 +1,5 @@
-<scroll-view scroll-y class="body" bindscrolltolower="lower" lower-threshold="1000"  scroll-top="{{scrollTop}}" bindscroll="myscroll">
+<wxs module="filter" src="../../utils/util.wxs"></wxs>
+<scroll-view scroll-y class="body" bindscrolltolower="lower" lower-threshold="1000" scroll-top="{{scrollTop}}" bindscroll="myscroll">
     <pullDownRefresh refreshing="{{refreshing}}" refreshH="{{refreshH}}" refreshed="{{refreshed}}" bind:refresh="refresh">
         <view class='head'>
             <image src='{{categoryInfo.headerImage}}'></image>

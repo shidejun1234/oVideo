@@ -52,7 +52,7 @@ Page({
     lower() {
         if (this.data.isLoading) {
             let itemList2 = this.data.itemList2;
-            if (this.data.page-1 == itemList2.length) {
+            if (this.data.page+1 == itemList2.length) {
                 this.setData({
                     isLoading: false
                 });

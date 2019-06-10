@@ -106,6 +106,21 @@ let getVideoList = id => {
     })
 }
 
+let getRankList = strategy => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: `${api}v3/ranklist?strategy=${strategy}`,
+            success: res => {
+                if (res.statusCode == 200) {
+                    resolve(res.data);
+                } else {
+                    reject('error');
+                }
+            }
+        })
+    })
+}
+
 module.exports = {
     getFeed: getFeed,
     getNext: getNext,
@@ -113,5 +128,6 @@ module.exports = {
     getRelated: getRelated,
     getCategory: getCategory,
     getCategoryDetail: getCategoryDetail,
-    getVideoList: getVideoList
+    getVideoList: getVideoList,
+    getRankList: getRankList
 }
