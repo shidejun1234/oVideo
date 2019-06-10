@@ -8,7 +8,6 @@ Page({
     onLoad: function(options) {
         request.getCategory()
             .then(res => {
-                console.log(res)
                 this.setData({
                     categoryList: res
                 });

@@ -9,7 +9,10 @@ Page({
         isLoading3: false
     },
 
-    onLoad: function(options) {
+    onLoad: function (options) {
+        wx.showLoading({
+            title: '加载中....',
+        })
         //周排行
         request.getRankList('weekly')
             .then(res => {
@@ -28,6 +31,7 @@ Page({
                     isLoading1: true,
                     page1:1
                 })
+                wx.hideLoading();
             })
             .then(() => {
                 //月排行

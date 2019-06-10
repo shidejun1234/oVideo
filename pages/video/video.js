@@ -2,25 +2,38 @@ let request = require('../../utils/request.js')
 Page({
     data: {
         isLoading: false,
-        itemList: []
+        itemList: [],
+        isWiFi: true
     },
     onLoad(options) {
+        wx.showLoading({
+            title: '加载中....',
+        })
+        this.videoContext = wx.createVideoContext('myVideo')
+        wx.getNetworkType({
+            success: (res) => {
+                if (res.networkType != 'wifi') {
+                    this.setData({
+                        isWiFi: false
+                    })
+                }
+            }
+        })
         let id = options.id;
         request.getVideo(id)
             .then(res => {
                 wx.setNavigationBarTitle({
                     title: res.title
                 })
-                console.log(res)
                 this.setData({
                     video: res
                 });
+                wx.hideLoading();
             })
             .then(() => {
                 return request.getRelated(id)
             })
             .then(res => {
-                console.log(res)
                 let itemList = [];
                 let i = -1;
                 res.itemList.forEach((item) => {
@@ -44,6 +57,13 @@ Page({
             url: 'http://baobab.kaiyanapp.com/api/v4/video/related?id=45897',
         })
     },
+
+    play() {
+        this.setData({
+            isWiFi: true
+        })
+    },
+
     toVideo(e) {
         wx.navigateTo({
             url: '../video/video?id=' + e.currentTarget.dataset.id
@@ -52,7 +72,7 @@ Page({
     lower() {
         if (this.data.isLoading) {
             let itemList2 = this.data.itemList2;
-            if (this.data.page+1 == itemList2.length) {
+            if (this.data.page + 1 == itemList2.length) {
                 this.setData({
                     isLoading: false
                 });
