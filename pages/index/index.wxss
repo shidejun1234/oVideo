@@ -2,6 +2,13 @@ page{
     background: #e5e5e5;
 }
 
+.body{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+}
+
 .video{
     width: 100%;
     text-align: center;

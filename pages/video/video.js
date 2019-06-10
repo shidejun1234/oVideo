@@ -21,18 +21,21 @@ Page({
             })
             .then(res => {
                 console.log(res)
-                if (res.nextPageUrl != null) {
-                    this.setData({
-                        'itemList[0]': res.itemList,
-                        isLoading: true,
-                        nextPageUrl: res.nextPageUrl,
-                        page: 1
-                    })
-                } else {
-                    this.setData({
-                        'itemList[0]': res.itemList
-                    })
-                }
+                let itemList = [];
+                let i = -1;
+                res.itemList.forEach((item) => {
+                    if (item.type == 'textCard') {
+                        itemList.push([]);
+                        i++;
+                    }
+                    itemList[i].push(item);
+                })
+                this.data.itemList2 = itemList;
+                this.setData({
+                    'itemList[0]': itemList[0],
+                    isLoading: true,
+                    page: 1
+                })
             })
             .catch(error => {
                 console.log(error)
@@ -46,19 +49,18 @@ Page({
             url: '../video/video?id=' + e.currentTarget.dataset.id
         })
     },
-    onReachBottom() {
+    lower() {
         if (this.data.isLoading) {
-            request.getNext(this.data.nextPageUrl)
-                .then(res => {
-                    this.data.nextPageUrl = res.nextPageUrl;
-                    let key = `itemList[${this.data.page++}]`;
-                    this.setData({
-                        [key]: res.itemList
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+            let itemList2 = this.data.itemList2;
+            if (this.data.page-1 == itemList2.length) {
+                this.setData({
+                    isLoading: false
+                });
+            }
+            let key = `itemList[${this.data.page}]`;
+            this.setData({
+                [key]: itemList2[this.data.page++]
+            });
         }
     },
     onShareAppMessage(res) {

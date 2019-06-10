@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+    "enablePullDownRefresh": false,
+    "usingComponents": {
+        "pullDownRefresh": "../../utils/pullDownRefresh/pullDownRefresh"
+    }
 }

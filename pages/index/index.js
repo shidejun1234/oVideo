@@ -22,10 +22,7 @@ Page({
             url: '../video/video?id=' + e.currentTarget.dataset.id
         })
     },
-    onPullDownRefresh() {
-        console.log(1)
-    },
-    onReachBottom() {
+    lower() {
         request.getNext(this.data.nextPageUrl)
             .then(res => {
                 this.data.nextPageUrl = res.nextPageUrl;
