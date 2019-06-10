@@ -6,26 +6,16 @@ Page({
         refreshed: false, // 将本属性设置为true，收起下拉刷新，可多次设置为true（即便原来已经是true了）
         refreshH: -250,
         itemList: [],
-        isLoading: false
-    },
-
-    refresh() {
-        request.getNext(this.data.url)
-            .then(res => {
-                this.data.itemList = [];
-                this.setData({
-                    'itemList[0]': res.itemList,
-                    nextPageUrl: res.nextPageUrl,
-                    page: 1,
-                    isLoading: true,
-                    refreshed: true
-                });
-            })
-            .catch(error => console.log(error));
+        itemList2: [],
+        isLoading: false,
+        selectTab: 1,
+        isTop:false
     },
 
     onLoad: function(options) {
-        options.id=14
+        wx.showLoading({
+            title: '加载中....',
+        })
         request.getCategoryDetail(options.id)
             .then(res => {
                 wx.setNavigationBarTitle({
@@ -35,7 +25,6 @@ Page({
                     categoryInfo: res.categoryInfo,
                     url: res.tabInfo.tabList[0].apiUrl
                 });
-                console.log(res)
                 return res.tabInfo.tabList[0].apiUrl
             })
             .then(url => {
@@ -44,6 +33,16 @@ Page({
             .then(res => {
                 this.setData({
                     'itemList[0]': res.itemList,
+                    isLoading: true
+                });
+                wx.hideLoading();
+            })
+            .then(() => {
+                return request.getVideoList(options.id)
+            })
+            .then(res => {
+                this.setData({
+                    'itemList2[0]': res.itemList,
                     nextPageUrl: res.nextPageUrl,
                     page: 1,
                     isLoading: true
@@ -52,25 +51,72 @@ Page({
             .catch(error => console.log(error));
     },
 
+    refresh() {
+        switch (this.data.selectTab) {
+            case 1:
+                request.getNext(this.data.url)
+                    .then(res => {
+                        this.data.itemList = [];
+                        this.setData({
+                            'itemList[0]': res.itemList,
+                            isLoading: true,
+                            refreshed: true
+                        });
+                    })
+                    .catch(error => console.log(error));
+                break;
+            case 2:
+                this.setData({
+                    refreshed: true
+                });
+                break;
+        }
+    },
+
+    select(e) {
+        let id = e.currentTarget.dataset.id;
+        if (id != this.data.selectTab) {
+            this.setData({
+                selectTab: Number(id)
+            })
+        }
+    },
+
     toVideo(e) {
         wx.navigateTo({
             url: '../video/video?id=' + e.currentTarget.dataset.id
         })
     },
 
-    onReachBottom() {
-        if (this.data.isLoading) {
+    myscroll: function(e) {
+        if (e.detail.scrollTop > 1000) {
+            this.setData({
+                isTop: true
+            })
+        } else {
+            this.setData({
+                isTop: false
+            })
+        }
+    },
+
+    top: function () {
+        this.setData({
+            scrollTop: 0
+        })
+    },
+
+    lower() {
+        if (this.data.isLoading && this.data.selectTab != 1) {
             request.getNext(this.data.nextPageUrl)
                 .then(res => {
-                    let key = `itemList[${this.data.page++}]`;
+                    let key = `itemList2[${this.data.page++}]`;
                     if (res.nextPageUrl != null) {
                         this.data.nextPageUrl = res.nextPageUrl;
-                        console.log(res)
                         this.setData({
                             [key]: res.itemList
                         });
                     } else {
-                        console.log(res)
                         wx.showToast({
                             title: '已全部加载',
                             icon: 'none'

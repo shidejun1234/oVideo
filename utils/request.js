@@ -91,11 +91,27 @@ let getCategoryDetail = id => {
     })
 }
 
+let getVideoList = id => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: `${api}v3/categories/videoList?id=${id}`,
+            success: res => {
+                if (res.statusCode == 200) {
+                    resolve(res.data);
+                } else {
+                    reject('error');
+                }
+            }
+        })
+    })
+}
+
 module.exports = {
     getFeed: getFeed,
     getNext: getNext,
     getVideo: getVideo,
     getRelated: getRelated,
     getCategory: getCategory,
-    getCategoryDetail: getCategoryDetail
+    getCategoryDetail: getCategoryDetail,
+    getVideoList: getVideoList
 }

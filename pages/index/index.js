@@ -5,13 +5,17 @@ Page({
         itemList: []
     },
     onLoad() {
+        wx.showLoading({
+            title: '加载中....',
+        })
         request.getFeed()
             .then(res => {
                 this.data.nextPageUrl = res.nextPageUrl;
                 this.setData({
                     'itemList[0]': res.issueList[0].itemList,
                     page: 1
-                })
+                });
+                wx.hideLoading();
             })
             .catch(error => {
                 console.log(error);

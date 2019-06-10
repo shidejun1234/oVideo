@@ -2,6 +2,13 @@ page{
     background: #e5e5e5;
 }
 
+.body{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+}
+
 .head {
     width: 100%;
     position: relative;
@@ -28,6 +35,26 @@ page{
     font-size: 45rpx;
     font-weight: bold;
     margin-bottom: 20rpx;
+}
+
+.tab{
+    width: 95%;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    background: #ffffff;
+}
+
+.tab view{
+    width: 40%;
+    margin: 0 auto;
+}
+
+.tab .select{
+    border-bottom: 3px solid #df5620;
 }
 
 .video {
@@ -63,4 +90,19 @@ page{
     color: #fff;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10rpx;
+}
+
+.top{
+    width: 100rpx;
+    height: 100rpx;
+    position: fixed;
+    right: 10rpx;
+    bottom: 25%;
+    z-index: 99;
+}
+
+::-webkit-scrollbar{
+width: 0;
+height: 0;
+color: transparent;
 }
